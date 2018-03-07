@@ -4,6 +4,7 @@ import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.views.image.ReactImageView;
 import com.pollfish.constants.Position;
 import com.pollfish.interfaces.PollfishClosedListener;
 import com.pollfish.interfaces.PollfishOpenedListener;
@@ -27,12 +28,12 @@ public class PollfishModule extends BaseModule implements PollfishSurveyNotAvail
     private static final String REACT_CLASS = PollfishModule.class.getName();
     private static final String EVENT = "onPollfishEvent";
 
-    private static final String POSITION_TOP_LEFT = "top_left";
-    private static final String POSITION_BOTTOM_LEFT = "bottom_left";
-    private static final String POSITION_TOP_RIGHT = "top_right";
-    private static final String POSITION_BOTTOM_RIGHT = "bottom_right";
-    private static final String POSITION_MIDDLE_LEFT = "middle_left";
-    private static final String POSITION_MIDDLE_RIGHT = "middle_right";
+    private static final int POSITION_TOP_LEFT = 0;
+    private static final int POSITION_BOTTOM_LEFT = 1;
+    private static final int POSITION_TOP_RIGHT = 2;
+    private static final int POSITION_BOTTOM_RIGHT = 3;
+    private static final int POSITION_MIDDLE_LEFT = 4;
+    private static final int POSITION_MIDDLE_RIGHT = 5;
 
     public PollfishModule(ReactApplicationContext reactContext) {
         super(REACT_CLASS, reactContext);
@@ -48,7 +49,7 @@ public class PollfishModule extends BaseModule implements PollfishSurveyNotAvail
 
     //first initialize
     @ReactMethod
-    public void initialize(String apiKey, String uid, Position position) {
+    public void initialize(String apiKey, String uid, int i) {
         PollFish.initWith(getCurrentActivity(), new PollFish.ParamsBuilder(apiKey)
                 .requestUUID(uid)
                 .pollfishSurveyNotAvailableListener(this)
@@ -58,7 +59,7 @@ public class PollfishModule extends BaseModule implements PollfishSurveyNotAvail
                 .pollfishSurveyNotAvailableListener(this)
                 .pollfishSurveyCompletedListener(this)
                 .pollfishUserNotEligibleListener(this)
-                .indicatorPosition(position)
+                .indicatorPosition(Position.values()[i])
                 .build());
     }
 
@@ -92,12 +93,12 @@ public class PollfishModule extends BaseModule implements PollfishSurveyNotAvail
     @Override
     public Map<String, Object> getConstants() {
         final Map<String, Object> constants = new HashMap<>();
-        constants.put(POSITION_TOP_LEFT, Position.TOP_LEFT);
-        constants.put(POSITION_BOTTOM_LEFT, Position.BOTTOM_LEFT);
-        constants.put(POSITION_TOP_RIGHT, Position.TOP_RIGHT);
-        constants.put(POSITION_BOTTOM_RIGHT, Position.BOTTOM_RIGHT);
-        constants.put(POSITION_MIDDLE_LEFT, Position.MIDDLE_LEFT);
-        constants.put(POSITION_MIDDLE_RIGHT, Position.MIDDLE_RIGHT);
+        constants.put("top_left", POSITION_TOP_LEFT);
+        constants.put("bottom_left", POSITION_BOTTOM_LEFT);
+        constants.put("top_right", POSITION_TOP_RIGHT);
+        constants.put("bottom_right", POSITION_BOTTOM_RIGHT);
+        constants.put("middle_left", POSITION_MIDDLE_LEFT);
+        constants.put("middle_right", POSITION_MIDDLE_RIGHT);
         return constants;
     }
 
@@ -115,7 +116,7 @@ public class PollfishModule extends BaseModule implements PollfishSurveyNotAvail
     public void onPollfishSurveyNotAvailable() {
         WritableMap params = Arguments.createMap();
         params.putString("pollfishState", "PollfishSurveyNotAvailable");
-        sendEvent(getReactApplicationContext(), "onPollfishSurveyNotAvailable", params);
+        sendEvent(getReactApplicationContext(), EVENT, params);
     }
 
     //Sets a notification listener when Pollfish Survey panel is closed
