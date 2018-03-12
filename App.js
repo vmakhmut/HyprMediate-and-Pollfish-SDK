@@ -11,26 +11,41 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Modal
+  Modal,
+  NativeModules,
+  DeviceEventEmitter
 } from 'react-native';
 import SDKComponent from './SDKComponent'
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+let Pollfish = NativeModules.PollfishModule;
 
-type Props = {};
+
 export default class App extends Component<Props> {
   state= {
-	modalVisible: false
-}
+    modalVisible: false
+  }
 
   closeModal = () => {
-	this.setState({modalVisible: false})
-}
+    this.setState({modalVisible: false})
+  }
+
+  _onChange(event) {
+    console.log(event);
+  }
+
+  componentWillMount(){
+    DeviceEventEmitter.addListener('onActivityStateChange', this._onChange)
+  }
+
+  componentDidMount(){
+    console.log('mounted')
+    Pollfish.initialize("e87bf486-712b-40ec-a6c0-d3ed6b5649a9", 'e87bf486-712b-40ec-a6c0-d3ed6b5649a9', 1)
+    Pollfish.show();
+  }
+
+  componentWillUnmount() {
+    DeviceEventEmitter.removeListener('onActivityStateChange', this._onChange);
+  }
 
   render() {
     return (
@@ -41,12 +56,12 @@ export default class App extends Component<Props> {
         <TouchableOpacity onPress={()=>this.setState({modalVisible: true})}>
 		<Text>Open Custom Component</Text>
 	</TouchableOpacity>
-	<Modal
-	  animationType="fade"
-          transparent={false}
-          visible={this.state.modalVisible}>
-	<SDKComponent closeComponent={this.closeModal}/>
-	</Modal>
+	{/*<Modal*/}
+	  {/*animationType="fade"*/}
+          {/*transparent={false}*/}
+          {/*visible={this.state.modalVisible}>*/}
+	{/*<SDKComponent closeComponent={this.closeModal}/>*/}
+	{/*</Modal>*/}
       </View>
     );
   }
