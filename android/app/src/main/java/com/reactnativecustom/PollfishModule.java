@@ -1,10 +1,10 @@
 package com.reactnativecustom;
 
 import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
-import com.facebook.react.views.image.ReactImageView;
 import com.pollfish.constants.Position;
 import com.pollfish.interfaces.PollfishClosedListener;
 import com.pollfish.interfaces.PollfishOpenedListener;
@@ -21,11 +21,11 @@ import java.util.Map;
  * Created by name on 06.03.2018.
  */
 
-public class PollfishModule extends BaseModule implements PollfishSurveyNotAvailableListener,
+public class PollfishModule extends BaseModule implements LifecycleEventListener, PollfishSurveyNotAvailableListener,
         PollfishSurveyCompletedListener, PollfishOpenedListener, PollfishClosedListener,
         PollfishUserNotEligibleListener, PollfishSurveyReceivedListener {
 
-    private static final String REACT_CLASS = PollfishModule.class.getName();
+    private static final String REACT_CLASS = "PollfishModule";
     private static final String EVENT = "onPollfishEvent";
 
     private static final int POSITION_TOP_LEFT = 0;
@@ -35,32 +35,21 @@ public class PollfishModule extends BaseModule implements PollfishSurveyNotAvail
     private static final int POSITION_MIDDLE_LEFT = 4;
     private static final int POSITION_MIDDLE_RIGHT = 5;
 
+    private String apiKey = null;
+    private String uid = null;
+    private int position = -1;
+
     public PollfishModule(ReactApplicationContext reactContext) {
         super(REACT_CLASS, reactContext);
-    }
-
-    //reinitialize on configuration change
-    @ReactMethod
-    public void initialize(String apiKey, String uid) {
-        PollFish.initWith(getCurrentActivity(), new PollFish.ParamsBuilder(apiKey)
-                .requestUUID(uid)
-                .build());
+        reactContext.addLifecycleEventListener(this);
     }
 
     //first initialize
     @ReactMethod
     public void initialize(String apiKey, String uid, int i) {
-        PollFish.initWith(getCurrentActivity(), new PollFish.ParamsBuilder(apiKey)
-                .requestUUID(uid)
-                .pollfishSurveyNotAvailableListener(this)
-                .pollfishClosedListener(this)
-                .pollfishSurveyReceivedListener(this)
-                .pollfishOpenedListener(this)
-                .pollfishSurveyNotAvailableListener(this)
-                .pollfishSurveyCompletedListener(this)
-                .pollfishUserNotEligibleListener(this)
-                .indicatorPosition(Position.values()[i])
-                .build());
+        this.apiKey = apiKey;
+        this.uid = uid;
+        this.position = i;
     }
 
     //show Pollfish button on current Activity
@@ -75,7 +64,7 @@ public class PollfishModule extends BaseModule implements PollfishSurveyNotAvail
         PollFish.hide();
     }
 
-    //
+
     @ReactMethod
     public void isPollfishPresent() {
         WritableMap params = Arguments.createMap();
@@ -150,5 +139,30 @@ public class PollfishModule extends BaseModule implements PollfishSurveyNotAvail
         params.putBoolean("playfulSurveys", b);
         params.putInt("surveyPrice", i);
         sendEvent(getReactApplicationContext(), "onPollfishSurveyReceived", params);
+    }
+
+    @Override
+    public void onHostResume() {
+        PollFish.initWith(getCurrentActivity(), new PollFish.ParamsBuilder(apiKey)
+                .requestUUID(uid)
+                .pollfishSurveyNotAvailableListener(this)
+                .pollfishClosedListener(this)
+                .pollfishSurveyReceivedListener(this)
+                .pollfishOpenedListener(this)
+                .pollfishSurveyNotAvailableListener(this)
+                .pollfishSurveyCompletedListener(this)
+                .pollfishUserNotEligibleListener(this)
+                .indicatorPosition(Position.values()[position])
+                .build());
+    }
+
+    @Override
+    public void onHostPause() {
+
+    }
+
+    @Override
+    public void onHostDestroy() {
+
     }
 }

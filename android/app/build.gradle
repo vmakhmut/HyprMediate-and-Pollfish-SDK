@@ -137,7 +137,7 @@ android {
 }
 
 ext {
-    supportLibraryVersion = '27.0.2'
+    supportLibraryVersion = '27.1.0'
     playServices = '11.8.0'
 }
 
@@ -149,6 +149,7 @@ dependencies {
     implementation "com.android.support:support-v4:$supportLibraryVersion"
     implementation "com.android.support:recyclerview-v7:$supportLibraryVersion"
 
+//    implementation "com.google.android.gms:play-services:$playServices"
     implementation "com.google.android.gms:play-services-ads-lite:$playServices"
     implementation "com.google.android.gms:play-services-base:$playServices"
 

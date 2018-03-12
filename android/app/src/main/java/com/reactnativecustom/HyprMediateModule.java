@@ -16,7 +16,7 @@ import com.hyprmx.mediate.HyprMediateReward;
 
 public class HyprMediateModule extends BaseModule {
 
-    private static final String REACT_CLASS = HyprMediateModule.class.getName();
+    private static final String REACT_CLASS = "HyprMediateModule";
     private static final String EVENT = "onHyperMediateEvent";
 
     private HyprMediateListener listener = null;
