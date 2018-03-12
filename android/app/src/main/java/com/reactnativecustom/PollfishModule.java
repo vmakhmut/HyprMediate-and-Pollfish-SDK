@@ -57,7 +57,7 @@ public class PollfishModule extends BaseModule implements PollfishSurveyNotAvail
                 .pollfishSurveyNotAvailableListener(this)
                 .pollfishSurveyCompletedListener(this)
                 .pollfishUserNotEligibleListener(this)
-                .indicatorPosition(Position.values()[position])
+                .indicatorPosition(Position.values()[i])
                 .build());
     }
 
