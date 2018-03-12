@@ -1,11 +1,11 @@
 package com.reactnativecustom;
 
 import com.facebook.react.bridge.Arguments;
-import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
 import com.pollfish.constants.Position;
+import com.pollfish.constants.UserProperties;
 import com.pollfish.interfaces.PollfishClosedListener;
 import com.pollfish.interfaces.PollfishOpenedListener;
 import com.pollfish.interfaces.PollfishSurveyCompletedListener;
@@ -21,7 +21,7 @@ import java.util.Map;
  * Created by name on 06.03.2018.
  */
 
-public class PollfishModule extends BaseModule implements LifecycleEventListener, PollfishSurveyNotAvailableListener,
+public class PollfishModule extends BaseModule implements PollfishSurveyNotAvailableListener,
         PollfishSurveyCompletedListener, PollfishOpenedListener, PollfishClosedListener,
         PollfishUserNotEligibleListener, PollfishSurveyReceivedListener {
 
@@ -39,17 +39,26 @@ public class PollfishModule extends BaseModule implements LifecycleEventListener
     private String uid = null;
     private int position = -1;
 
+    private UserProperties userProperties;
+
     public PollfishModule(ReactApplicationContext reactContext) {
         super(REACT_CLASS, reactContext);
-        reactContext.addLifecycleEventListener(this);
     }
 
     //first initialize
     @ReactMethod
     public void initialize(String apiKey, String uid, int i) {
-        this.apiKey = apiKey;
-        this.uid = uid;
-        this.position = i;
+        PollFish.initWith(getCurrentActivity(), new PollFish.ParamsBuilder(apiKey)
+                .requestUUID(uid)
+                .pollfishSurveyNotAvailableListener(this)
+                .pollfishClosedListener(this)
+                .pollfishSurveyReceivedListener(this)
+                .pollfishOpenedListener(this)
+                .pollfishSurveyNotAvailableListener(this)
+                .pollfishSurveyCompletedListener(this)
+                .pollfishUserNotEligibleListener(this)
+                .indicatorPosition(Position.values()[position])
+                .build());
     }
 
     //show Pollfish button on current Activity
@@ -64,7 +73,6 @@ public class PollfishModule extends BaseModule implements LifecycleEventListener
         PollFish.hide();
     }
 
-
     @ReactMethod
     public void isPollfishPresent() {
         WritableMap params = Arguments.createMap();
@@ -77,6 +85,30 @@ public class PollfishModule extends BaseModule implements LifecycleEventListener
         WritableMap params = Arguments.createMap();
         params.putBoolean("isPollfishPanelOpen", PollFish.isPollfishPanelOpen());
         sendEvent(getReactApplicationContext(), EVENT, params);
+    }
+
+    @ReactMethod
+    public void setUserProperties() {
+        userProperties = new UserProperties()
+                .setGender(UserProperties.Gender.MALE)
+                .setYearOfBirth(UserProperties.YearOfBirth._1984)
+                .setMaritalStatus(UserProperties.MaritalStatus.SINGLE)
+                .setParentalStatus(UserProperties.ParentalStatus.ZERO)
+                .setEducation(UserProperties.EducationLevel.UNIVERSITY)
+                .setEmployment(UserProperties.EmploymentStatus.EMPLOYED_FOR_WAGES)
+                .setCareer(UserProperties.Career.TELECOMMUNICATIONS)
+                .setRace(UserProperties.Race.WHITE)
+                .setIncome(UserProperties.Income.MIDDLE_I)
+
+                .setEmail("user_email@test.com")
+                .setFacebookId("USER_FB")
+                .setGoogleId("USER_GOOGLE")
+                .setTwitterId("USER_TWITTER")
+                .setLinkedInId("USER_LINKEDIN")
+                .setPhone("USER_PHONE")
+                .setName("USER_NAME")
+                .setSurname("USER_SURNAME")
+                .setCustomAttributes("MY_PARAM", "MY_VALUE");
     }
 
     @Override
@@ -139,30 +171,5 @@ public class PollfishModule extends BaseModule implements LifecycleEventListener
         params.putBoolean("playfulSurveys", b);
         params.putInt("surveyPrice", i);
         sendEvent(getReactApplicationContext(), "onPollfishSurveyReceived", params);
-    }
-
-    @Override
-    public void onHostResume() {
-        PollFish.initWith(getCurrentActivity(), new PollFish.ParamsBuilder(apiKey)
-                .requestUUID(uid)
-                .pollfishSurveyNotAvailableListener(this)
-                .pollfishClosedListener(this)
-                .pollfishSurveyReceivedListener(this)
-                .pollfishOpenedListener(this)
-                .pollfishSurveyNotAvailableListener(this)
-                .pollfishSurveyCompletedListener(this)
-                .pollfishUserNotEligibleListener(this)
-                .indicatorPosition(Position.values()[position])
-                .build());
-    }
-
-    @Override
-    public void onHostPause() {
-
-    }
-
-    @Override
-    public void onHostDestroy() {
-
     }
 }
