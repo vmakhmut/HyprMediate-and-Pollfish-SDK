@@ -19,6 +19,7 @@ import {
 import SDKComponent from './SDKComponent'
 
 let Pollfish = NativeModules.PollfishModule;
+let HyprMediate = NativeModules.HyprMediateModule;
 
 export default class App extends Component<Props> {
 
@@ -34,17 +35,24 @@ export default class App extends Component<Props> {
     console.log(event);
   }
 
+  _onHyperMediateEvent(event) {
+    console.log(event);
+  }
+
   componentWillMount(){
     DeviceEventEmitter.addListener('onPollfishEvent', this._onPollfishEvent)
+    DeviceEventEmitter.addListener('onHyperMediateEvent', this._onHyperMediateEvent)
   }
 
   componentDidMount() {
     Pollfish.initialize("e87bf486-712b-40ec-a6c0-d3ed6b5649a9", 'e87bf486-712b-40ec-a6c0-d3ed6b5649a9', 4)
+    HyprMediate.initialize("dd8e761b-7650-4af7-9bc8-c018b5ac6d07", "e87bf486-712b-40ec-a6c0-d3ed6b5649a9")
     console.log('mounted')
   }
 
   componentWillUnmount() {
     DeviceEventEmitter.removeListener('onPollfishEvent', this._onPollfishEvent)
+    DeviceEventEmitter.removeListener('onHyperMediateEvent', this._onHyperMediateEvent)
   }
 
   render() {
@@ -59,7 +67,7 @@ export default class App extends Component<Props> {
 		<Text>Open Custom Component</Text>
 	</TouchableOpacity>
   <TouchableOpacity onPress={()=> {
-    Pollfish.hide()}}>
+    HyprMediate.showAd()}}>
 <Text>Hide Custom Component</Text>
 </TouchableOpacity>
 	{/*<Modal*/}

@@ -70,7 +70,7 @@ public class PollfishModule extends BaseModule {
                             @Override
                             public void onPollfishClosed() {
                                 WritableMap params = Arguments.createMap();
-                                params.putString("pollfishState", "onPollfishClosed");
+                                params.putString("pollfishPanel", "onPollfishClosed");
                                 sendEvent(EVENT, params);
                             }
                         })
@@ -79,7 +79,7 @@ public class PollfishModule extends BaseModule {
                             @Override
                             public void onPollfishSurveyReceived(boolean b, int i) {
                                 WritableMap params = Arguments.createMap();
-                                params.putBoolean("playfulSurveysReceived", b);
+                                params.putBoolean("playfulSurveyReceived", b);
                                 params.putInt("surveyPriceReceived", i);
                                 sendEvent(EVENT, params);
                             }
@@ -89,7 +89,7 @@ public class PollfishModule extends BaseModule {
                             @Override
                             public void onPollfishOpened() {
                                 WritableMap params = Arguments.createMap();
-                                params.putString("pollfishState", "onPollfishOpened");
+                                params.putString("pollfishPanel", "onPollfishOpened");
                                 sendEvent(EVENT, params);
                             }
                         })
@@ -98,7 +98,7 @@ public class PollfishModule extends BaseModule {
                             @Override
                             public void onPollfishSurveyCompleted(boolean b, int i) {
                                 WritableMap params = Arguments.createMap();
-                                params.putBoolean("playfulSurveysCompleted", b);
+                                params.putBoolean("playfulSurveyCompleted", b);
                                 params.putInt("surveyPriceCompleted", i);
                                 sendEvent(EVENT, params);
                             }

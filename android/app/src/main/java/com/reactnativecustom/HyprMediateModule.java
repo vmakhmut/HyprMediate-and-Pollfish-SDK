@@ -23,13 +23,13 @@ public class HyprMediateModule extends BaseModule {
 
     public HyprMediateModule(ReactApplicationContext reactContext) {
         super(REACT_CLASS, reactContext);
-        onReceiveNativeEvent(getReactApplicationContext());
+        onReceiveNativeEvent();
     }
 
     //initialize with API key and user ID
     @ReactMethod
     public void initialize(String apiKey, String uid) {
-        HyprMediate.getInstance().initialize(getReactApplicationContext().getCurrentActivity(), apiKey, uid, listener);
+        HyprMediate.getInstance().initialize(getCurrentActivity(), apiKey, uid, listener);
     }
 
     //show ad
@@ -44,7 +44,7 @@ public class HyprMediateModule extends BaseModule {
         HyprMediate.getInstance().checkInventory();
     }
 
-    private void onReceiveNativeEvent(final ReactContext reactContext) {
+    private void onReceiveNativeEvent() {
 
         listener = new HyprMediateListener() {
 
@@ -75,7 +75,7 @@ public class HyprMediateModule extends BaseModule {
             @Override
             public void hyprMediateStartedDisplaying() {
                 WritableMap params = Arguments.createMap();
-                params.putString("displaying_state", "START");
+                params.putString("displaying_state", "HyprMediateStartAd");
                 sendEvent(EVENT, params);
             }
 
@@ -83,7 +83,7 @@ public class HyprMediateModule extends BaseModule {
             @Override
             public void hyprMediateFinishedDisplaying() {
                 WritableMap params = Arguments.createMap();
-                params.putString("displaying_state", "FINISH");
+                params.putString("displaying_state", "HyprMediateStopAd");
                 sendEvent(EVENT, params);
             }
         };
