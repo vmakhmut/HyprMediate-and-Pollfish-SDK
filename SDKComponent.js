@@ -15,7 +15,7 @@ export default class SDKComponent extends Component<Props> {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          CUSTOM COMPONENT :A::A::A:A:A: 
+          CUSTOM COMPONENT :A::A::A:A:A:
         </Text>
          <TouchableOpacity onPress={this.props.closeComponent}>
 		<Text>Back To Home</Text>

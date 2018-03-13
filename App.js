@@ -13,14 +13,15 @@ import {
   TouchableOpacity,
   Modal,
   NativeModules,
-  DeviceEventEmitter
+  DeviceEventEmitter,
+  AppState
 } from 'react-native';
 import SDKComponent from './SDKComponent'
 
 let Pollfish = NativeModules.PollfishModule;
 
-
 export default class App extends Component<Props> {
+
   state= {
     modalVisible: false
   }
@@ -29,22 +30,20 @@ export default class App extends Component<Props> {
     this.setState({modalVisible: false})
   }
 
-  _onChange(event) {
+  _onPollfishEvent(event) {
     console.log(event);
   }
 
-  componentWillMount(){
-    DeviceEventEmitter.addListener('onActivityStateChange', this._onChange)
-  }
+  componentWillMount(){}
 
-  componentDidMount(){
+  componentDidMount() {
+    Pollfish.initialize("e87bf486-712b-40ec-a6c0-d3ed6b5649a9", 'e87bf486-712b-40ec-a6c0-d3ed6b5649a9', 4)
+    DeviceEventEmitter.addListener('onPollfishEvent', this._onPollfishEvent)
     console.log('mounted')
-    Pollfish.initialize("e87bf486-712b-40ec-a6c0-d3ed6b5649a9", 'e87bf486-712b-40ec-a6c0-d3ed6b5649a9', 1)
-    Pollfish.show();
   }
 
   componentWillUnmount() {
-    DeviceEventEmitter.removeListener('onActivityStateChange', this._onChange);
+    DeviceEventEmitter.removeListener('onPollfishEvent', this._onPollfishEvent)
   }
 
   render() {
@@ -53,9 +52,15 @@ export default class App extends Component<Props> {
         <Text style={styles.welcome}>
           Welcome to React Native!
         </Text>
-        <TouchableOpacity onPress={()=>this.setState({modalVisible: true})}>
+        <TouchableOpacity onPress={()=> {
+          Pollfish.show();
+          this.setState({modalVisible: true})}}>
 		<Text>Open Custom Component</Text>
 	</TouchableOpacity>
+  <TouchableOpacity onPress={()=> {
+    Pollfish.hide()}}>
+<Text>Hide Custom Component</Text>
+</TouchableOpacity>
 	{/*<Modal*/}
 	  {/*animationType="fade"*/}
           {/*transparent={false}*/}

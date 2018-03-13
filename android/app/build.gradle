@@ -154,8 +154,8 @@ dependencies {
     implementation "com.google.android.gms:play-services-base:$playServices"
 
     implementation "com.facebook.react:react-native:+"  // From node_modules
-    implementation 'com.pollfish:pollfish:4.3.5:googleplayRelease@aar'
-    implementation 'com.hyprmx.mediate:HyprMediate-SDK:1.4.0'
+    implementation "com.pollfish:pollfish:+:universalRelease@aar"
+    implementation "com.hyprmx.mediate:HyprMediate-SDK:1.4.0"
 }
 
 // Run this once to be able to run the application with BUCK

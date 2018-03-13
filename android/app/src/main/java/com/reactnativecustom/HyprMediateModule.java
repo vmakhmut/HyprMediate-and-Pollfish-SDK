@@ -53,7 +53,7 @@ public class HyprMediateModule extends BaseModule {
             public void hyprMediateCanShowAd(boolean b) {
                 WritableMap params = Arguments.createMap();
                 params.putBoolean("hyprMediateCanShowAd", b);
-                sendEvent(reactContext, EVENT, params);
+                sendEvent(EVENT, params);
             }
 
             @Override
@@ -61,14 +61,14 @@ public class HyprMediateModule extends BaseModule {
                 WritableMap params = Arguments.createMap();
                 params.putString("virtualCurrencyName", hyprMediateReward.virtualCurrencyName());
                 params.putDouble("virtualCurrencyAmount", hyprMediateReward.virtualCurrencyAmount());
-                sendEvent(reactContext, EVENT, params);
+                sendEvent(EVENT, params);
             }
 
             @Override
             public void hyprMediateErrorOccurred(HyprMediateError hyprMediateError) {
                 WritableMap params = Arguments.createMap();
                 params.putString("hyprMediateError", hyprMediateError.toString());
-                sendEvent(reactContext, EVENT, params);
+                sendEvent(EVENT, params);
             }
 
             //HyprMediate started displaying an ad
@@ -76,7 +76,7 @@ public class HyprMediateModule extends BaseModule {
             public void hyprMediateStartedDisplaying() {
                 WritableMap params = Arguments.createMap();
                 params.putString("displaying_state", "START");
-                sendEvent(reactContext, EVENT, params);
+                sendEvent(EVENT, params);
             }
 
             //HyprMediate finished displaying an ad
@@ -84,7 +84,7 @@ public class HyprMediateModule extends BaseModule {
             public void hyprMediateFinishedDisplaying() {
                 WritableMap params = Arguments.createMap();
                 params.putString("displaying_state", "FINISH");
-                sendEvent(reactContext, EVENT, params);
+                sendEvent(EVENT, params);
             }
         };
     }
