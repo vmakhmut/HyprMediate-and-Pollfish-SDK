@@ -28,7 +28,7 @@ import java.util.Map;
 public class PollfishModule extends BaseModule {
 
     private static final String REACT_CLASS = "PollfishModule";
-    private static final String EVENT = "onPollFishEvent";
+    private static final String EVENT = "onPollfishEvent";
 
     private static final int POSITION_TOP_LEFT = 0;
     private static final int POSITION_BOTTOM_LEFT = 1;
@@ -53,65 +53,67 @@ public class PollfishModule extends BaseModule {
             @Override
             public void run() {
                 PollFish.initWith(getCurrentActivity(), new PollFish.ParamsBuilder(apiKey)
-                    .requestUUID(uid)
+                        .customMode(true)
+                        .requestUUID(uid)
+
                         //sets a notification listener when Pollfish Survey is not available
-                    .pollfishSurveyNotAvailableListener(new PollfishSurveyNotAvailableListener() {
-                        @Override
-                        public void onPollfishSurveyNotAvailable() {
-                            WritableMap params = Arguments.createMap();
-                            params.putString("pollfishState", "onPollfishSurveyNotAvailable");
-                            sendEvent(EVENT, params);
-                        }
-                    })
+                        .pollfishSurveyNotAvailableListener(new PollfishSurveyNotAvailableListener() {
+                            @Override
+                            public void onPollfishSurveyNotAvailable() {
+                                WritableMap params = Arguments.createMap();
+                                params.putString("pollfishState", "onPollfishSurveyNotAvailable");
+                                sendEvent(EVENT, params);
+                            }
+                        })
                         //Sets a notification listener when Pollfish Survey panel is closed
-                    .pollfishClosedListener(new PollfishClosedListener() {
-                        @Override
-                        public void onPollfishClosed() {
-                            WritableMap params = Arguments.createMap();
-                            params.putString("pollfishState", "onPollfishClosed");
-                            sendEvent(EVENT, params);
-                        }
-                    })
+                        .pollfishClosedListener(new PollfishClosedListener() {
+                            @Override
+                            public void onPollfishClosed() {
+                                WritableMap params = Arguments.createMap();
+                                params.putString("pollfishState", "onPollfishClosed");
+                                sendEvent(EVENT, params);
+                            }
+                        })
                         //sets a notification listener when Pollfish Survey is completed
-                    .pollfishSurveyReceivedListener(new PollfishSurveyReceivedListener() {
-                        @Override
-                        public void onPollfishSurveyReceived(boolean b, int i) {
-                            WritableMap params = Arguments.createMap();
-                            params.putBoolean("playfulSurveys", b);
-                            params.putInt("surveyPrice", i);
-                            sendEvent("onPollfishSurveyReceived", params);
-                        }
-                    })
+                        .pollfishSurveyReceivedListener(new PollfishSurveyReceivedListener() {
+                            @Override
+                            public void onPollfishSurveyReceived(boolean b, int i) {
+                                WritableMap params = Arguments.createMap();
+                                params.putBoolean("playfulSurveysReceived", b);
+                                params.putInt("surveyPriceReceived", i);
+                                sendEvent(EVENT, params);
+                            }
+                        })
                         //sets a notification listener when Pollfish Survey panel is opened
-                    .pollfishOpenedListener(new PollfishOpenedListener() {
-                        @Override
-                        public void onPollfishOpened() {
-                            WritableMap params = Arguments.createMap();
-                            params.putString("pollfishState", "onPollfishOpened");
-                            sendEvent(EVENT, params);
-                        }
-                    })
+                        .pollfishOpenedListener(new PollfishOpenedListener() {
+                            @Override
+                            public void onPollfishOpened() {
+                                WritableMap params = Arguments.createMap();
+                                params.putString("pollfishState", "onPollfishOpened");
+                                sendEvent(EVENT, params);
+                            }
+                        })
                         //sets a notification listener when Pollfish Survey is received
-                    .pollfishSurveyCompletedListener(new PollfishSurveyCompletedListener() {
-                        @Override
-                        public void onPollfishSurveyCompleted(boolean b, int i) {
-                            WritableMap params = Arguments.createMap();
-                            params.putBoolean("playfulSurveys", b);
-                            params.putInt("surveyPrice", i);
-                            sendEvent("onPollfishSurveyCompleted", params);
-                        }
-                    })
+                        .pollfishSurveyCompletedListener(new PollfishSurveyCompletedListener() {
+                            @Override
+                            public void onPollfishSurveyCompleted(boolean b, int i) {
+                                WritableMap params = Arguments.createMap();
+                                params.putBoolean("playfulSurveysCompleted", b);
+                                params.putInt("surveyPriceCompleted", i);
+                                sendEvent(EVENT, params);
+                            }
+                        })
                         //sets a notification listener when a user is not eligible for a Pollfish survey
-                    .pollfishUserNotEligibleListener(new PollfishUserNotEligibleListener() {
-                        @Override
-                        public void onUserNotEligible() {
-                            WritableMap params = Arguments.createMap();
-                            params.putString("onUserNotEligible", "onUserNotEligible");
-                            sendEvent(EVENT, params);
-                        }
-                    })
-                    .indicatorPosition(Position.values()[position])
-                    .build());
+                        .pollfishUserNotEligibleListener(new PollfishUserNotEligibleListener() {
+                            @Override
+                            public void onUserNotEligible() {
+                                WritableMap params = Arguments.createMap();
+                                params.putString("onUserNotEligible", "onUserNotEligible");
+                                sendEvent(EVENT, params);
+                            }
+                        })
+                        .indicatorPosition(Position.values()[position])
+                        .build());
             }
         });
     }

@@ -34,11 +34,12 @@ export default class App extends Component<Props> {
     console.log(event);
   }
 
-  componentWillMount(){}
+  componentWillMount(){
+    DeviceEventEmitter.addListener('onPollfishEvent', this._onPollfishEvent)
+  }
 
   componentDidMount() {
     Pollfish.initialize("e87bf486-712b-40ec-a6c0-d3ed6b5649a9", 'e87bf486-712b-40ec-a6c0-d3ed6b5649a9', 4)
-    DeviceEventEmitter.addListener('onPollfishEvent', this._onPollfishEvent)
     console.log('mounted')
   }
 
