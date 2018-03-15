@@ -45,7 +45,9 @@ export default class App extends Component<Props> {
   }
 
   componentDidMount() {
-    Pollfish.initialize("e87bf486-712b-40ec-a6c0-d3ed6b5649a9", 'e87bf486-712b-40ec-a6c0-d3ed6b5649a9', 4)
+    // Pollfish.initializeWithPosition("e87bf486-712b-40ec-a6c0-d3ed6b5649a9", 'e87bf486-712b-40ec-a6c0-d3ed6b5649a9',
+    // false, Pollfish.SurveyFormat.basic, Pollfish.Position.top_left)
+    Pollfish.initialize("e87bf486-712b-40ec-a6c0-d3ed6b5649a9", 'e87bf486-712b-40ec-a6c0-d3ed6b5649a9', false, Pollfish.SurveyFormat.third_party)
     HyprMediate.initialize("dd8e761b-7650-4af7-9bc8-c018b5ac6d07", "e87bf486-712b-40ec-a6c0-d3ed6b5649a9")
     console.log('mounted')
   }
