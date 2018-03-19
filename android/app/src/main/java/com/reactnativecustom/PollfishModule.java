@@ -261,21 +261,21 @@ public class PollfishModule extends BaseModule {
 
     private Map<String, Object> getPositionConstants() {
         final Map<String, Object> constants = new HashMap<>();
-        constants.put("top_left", POSITION_TOP_LEFT);
-        constants.put("bottom_left", POSITION_BOTTOM_LEFT);
-        constants.put("top_right", POSITION_TOP_RIGHT);
-        constants.put("bottom_right", POSITION_BOTTOM_RIGHT);
-        constants.put("middle_left", POSITION_MIDDLE_LEFT);
-        constants.put("middle_right", POSITION_MIDDLE_RIGHT);
+        constants.put("TOP_LEFT", POSITION_TOP_LEFT);
+        constants.put("BOTTOM_LEFT", POSITION_BOTTOM_LEFT);
+        constants.put("TOP_RIGHT", POSITION_TOP_RIGHT);
+        constants.put("BOTTOM_RIGHT", POSITION_BOTTOM_RIGHT);
+        constants.put("MIDDLE_LEFT", POSITION_MIDDLE_LEFT);
+        constants.put("MIDDLE_RIGHT", POSITION_MIDDLE_RIGHT);
         return constants;
     }
 
     private Map<String, Object> getSurveyFormatConstants() {
         final Map<String, Object> constants = new HashMap<>();
-        constants.put("basic", SurveyFormat.BASIC.toString());
-        constants.put("playful", SurveyFormat.PLAYFUL.toString());
-        constants.put("third_party", SurveyFormat.THIRD_PARTY.toString());
-        constants.put("random", SurveyFormat.RANDOM.toString());
+        constants.put("BASIC", SurveyFormat.BASIC.toString());
+        constants.put("PLAYFUL", SurveyFormat.PLAYFUL.toString());
+        constants.put("THIRD_PARTY", SurveyFormat.THIRD_PARTY.toString());
+        constants.put("RANDOM", SurveyFormat.RANDOM.toString());
         return constants;
     }
 
@@ -304,9 +304,99 @@ public class PollfishModule extends BaseModule {
     private Map<String, Object> getUserGenderConstants() {
         return Collections.unmodifiableMap(new HashMap<String, Object>() {
             {
-                put("male", UserProperties.Gender.MALE);
-                put("female", UserProperties.Gender.FEMALE);
-                put("other", UserProperties.Gender.OTHER);
+                put("MALE", UserProperties.Gender.MALE);
+                put("FEMALE", UserProperties.Gender.FEMALE);
+                put("OTHER", UserProperties.Gender.OTHER);
+            }
+        });
+    }
+
+    private Map<String, Object> getUserMarutalStatusConstants() {
+        return Collections.unmodifiableMap(new HashMap<String, Object>() {
+            {
+                put("SINGLE", UserProperties.MaritalStatus.SINGLE);
+                put("MARRIED", UserProperties.MaritalStatus.MARRIED);
+                put("DIVORCED", UserProperties.MaritalStatus.DIVORCED);
+                put("LIVING_WITH_PARTNER", UserProperties.MaritalStatus.LIVING_WITH_PARTNER);
+                put("SEPARATED", UserProperties.MaritalStatus.SEPARATED);
+                put("WIDOWED", UserProperties.MaritalStatus.WIDOWED);
+                put("PREFER_NOT_TO_SAY", UserProperties.MaritalStatus.PREFER_NOT_TO_SAY);
+            }
+        });
+    }
+
+    private Map<String, Object> getUserParentalConstants() {
+        return Collections.unmodifiableMap(new HashMap<String, Object>() {
+            {
+                put("ZERO", UserProperties.ParentalStatus.ZERO);
+                put("ONE", UserProperties.ParentalStatus.ONE);
+                put("TWO", UserProperties.ParentalStatus.TWO);
+                put("THREE", UserProperties.ParentalStatus.THREE);
+                put("FOUR", UserProperties.ParentalStatus.FOUR);
+                put("FIVE", UserProperties.ParentalStatus.FIVE);
+                put("SIX_OR_MORE", UserProperties.ParentalStatus.SIX_OR_MORE);
+                put("PREFER_NOT_TO_SAY", UserProperties.ParentalStatus.PREFER_NOT_TO_SAY);
+            }
+        });
+    }
+
+    private Map<String, Object> getUserEducationConstants() {
+        return Collections.unmodifiableMap(new HashMap<String, Object>() {
+            {
+                put("ELEMENTARY_SCHOOL", UserProperties.EducationLevel.ELEMENTARY_SCHOOL);
+                put("MIDDLE_SCHOOL", UserProperties.EducationLevel.MIDDLE_SCHOOL);
+                put("HIGH_SCHOOL", UserProperties.EducationLevel.HIGH_SCHOOL);
+                put("VOCATIONAL_TECHNICAL_COLLEGE", UserProperties.EducationLevel.VOCATIONAL_TECHNICAL_COLLEGE);
+                put("UNIVERSITY", UserProperties.EducationLevel.UNIVERSITY);
+                put("POST_GRADUATE", UserProperties.EducationLevel.POST_GRADUATE);
+            }
+        });
+    }
+
+    private Map<String, Object> getUserEmploymentConstants() {
+        return Collections.unmodifiableMap(new HashMap<String, Object>() {
+            {
+                put("EMPLOYED_FOR_WAGES", UserProperties.EmploymentStatus.EMPLOYED_FOR_WAGES);
+                put("SELF_EMPLOYED", UserProperties.EmploymentStatus.SELF_EMPLOYED);
+                put("UNEMPLOYED_LOOKING", UserProperties.EmploymentStatus.UNEMPLOYED_LOOKING);
+                put("UNEMPLOYED_NOT_LOOKING", UserProperties.EmploymentStatus.UNEMPLOYED_NOT_LOOKING);
+                put("HOMEMAKER", UserProperties.EmploymentStatus.HOMEMAKER);
+                put("STUDENT", UserProperties.EmploymentStatus.STUDENT);
+                put("MILITARY", UserProperties.EmploymentStatus.MILITARY);
+                put("RETIRED", UserProperties.EmploymentStatus.RETIRED);
+                put("UNABLE_TO_WORK", UserProperties.EmploymentStatus.UNABLE_TO_WORK);
+                put("OTHER", UserProperties.EmploymentStatus.OTHER);
+            }
+        });
+    }
+
+    private Map<String, Object> getUserRaceConstants() {
+        return Collections.unmodifiableMap(new HashMap<String, Object>() {
+            {
+                put("ARAB", UserProperties.Race.ARAB);
+                put("ASIAN", UserProperties.Race.ASIAN);
+                put("BLACK", UserProperties.Race.BLACK);
+                put("WHITE", UserProperties.Race.WHITE);
+                put("HISPANIC", UserProperties.Race.HISPANIC);
+                put("LATINO", UserProperties.Race.LATINO);
+                put("MULTIRACIAL", UserProperties.Race.MULTIRACIAL);
+                put("OTHER", UserProperties.Race.OTHER);
+                put("PREFER_NOT_TO_SAY", UserProperties.Race.PREFER_NOT_TO_SAY);
+            }
+        });
+    }
+
+    private Map<String, Object> getUserIncomeConstants() {
+        return Collections.unmodifiableMap(new HashMap<String, Object>() {
+            {
+                put("LOWER_I", UserProperties.Income.LOWER_I);
+                put("LOWER_II", UserProperties.Income.LOWER_II);
+                put("MIDDLE_I", UserProperties.Income.MIDDLE_I);
+                put("MIDDLE_II", UserProperties.Income.MIDDLE_II);
+                put("HIGH_I", UserProperties.Income.HIGH_I);
+                put("HIGH_II", UserProperties.Income.HIGH_II);
+                put("HIGH_III", UserProperties.Income.HIGH_III);
+                put("PREFER_NOT_TO_SAY", UserProperties.Income.PREFER_NOT_TO_SAY);
             }
         });
     }

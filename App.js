@@ -17,9 +17,10 @@ import {
   AppState
 } from 'react-native';
 import SDKComponent from './SDKComponent'
+//var HyprMediate = NativeModules.HyprMediateModule;
 
-let Pollfish = NativeModules.PollfishModule;
-let HyprMediate = NativeModules.HyprMediateModule;
+// let Pollfish = NativeModules.PollfishModule;
+// let HyprMediate = NativeModules.HyprMediateModule;
 
 export default class App extends Component<Props> {
 
@@ -39,16 +40,20 @@ export default class App extends Component<Props> {
     console.log(event);
   }
 
-  componentWillMount(){
+  componentWillMount() {
     DeviceEventEmitter.addListener('onPollfishEvent', this._onPollfishEvent)
     DeviceEventEmitter.addListener('onHyperMediateEvent', this._onHyperMediateEvent)
   }
 
   componentDidMount() {
+    NativeModules.HMModule.addEvent("One", "Two", 3, function(o) {
+        console.log('In Callback', o);
+    });
+
     // Pollfish.initializeWithPosition("e87bf486-712b-40ec-a6c0-d3ed6b5649a9", 'e87bf486-712b-40ec-a6c0-d3ed6b5649a9',
-    // false, Pollfish.SurveyFormat.basic, Pollfish.Position.top_left)
-    Pollfish.initialize("e87bf486-712b-40ec-a6c0-d3ed6b5649a9", 'e87bf486-712b-40ec-a6c0-d3ed6b5649a9', false, Pollfish.SurveyFormat.third_party)
-    HyprMediate.initialize("dd8e761b-7650-4af7-9bc8-c018b5ac6d07", "e87bf486-712b-40ec-a6c0-d3ed6b5649a9")
+    // false, Pollfish.SurveyFormat.BASIC, Pollfish.Position.TOP_LEFT)
+    // Pollfish.initialize("e87bf486-712b-40ec-a6c0-d3ed6b5649a9", 'e87bf486-712b-40ec-a6c0-d3ed6b5649a9', false, Pollfish.SurveyFormat.THIRD_PARTY)
+    // HyprMediate.initialize("dd8e761b-7650-4af7-9bc8-c018b5ac6d07", "e87bf486-712b-40ec-a6c0-d3ed6b5649a9")
     console.log('mounted')
   }
 
@@ -64,12 +69,14 @@ export default class App extends Component<Props> {
           Welcome to React Native!
         </Text>
         <TouchableOpacity onPress={()=> {
-          Pollfish.show();
+          NativeModules.HMModule.show();
+          // Pollfish.show();
           this.setState({modalVisible: true})}}>
 		<Text>Open Custom Component</Text>
 	</TouchableOpacity>
   <TouchableOpacity onPress={()=> {
-    HyprMediate.showAd()}}>
+    // HyprMediate.showAd()
+  }}>
 <Text>Hide Custom Component</Text>
 </TouchableOpacity>
 	{/*<Modal*/}
